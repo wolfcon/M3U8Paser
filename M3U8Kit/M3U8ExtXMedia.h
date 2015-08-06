@@ -30,7 +30,6 @@
 #define M3U8_EXT_X_MEDIA_CHARACTERISTICS    @"CHARACTERISTICS" // The value is a quoted-string containing one or more Uniform Type Identifiers [UTI] separated by comma (,) characters.
  
  */
-
 @interface M3U8ExtXMedia : NSObject
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;

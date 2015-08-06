@@ -32,14 +32,20 @@
  . 下载各 media playlist 对应的分段内容
  
  */
-
+/**
+ *  M3U8PlaylistModel Class
+ *  
+ *
+ */
 @interface M3U8PlaylistModel : NSObject
 
 @property (readonly, nonatomic, strong) NSString *URL;
 
 // 如果初始化时的字符串是 media playlist, masterPlaylist为nil
 // M3U8PlaylistModel 默认会按照《需要下载的内容》规则选取默认的playlist，如果需要手动指定获取特定的media playlist, 需调用方法 -specifyVideoURL:(这个在选取视频源的时候会用到);
-
+/**
+ *
+ */
 @property (readonly, nonatomic, strong) M3U8MasterPlaylist *masterPlaylist;
 
 @property (readonly, nonatomic, strong) M3U8MediaPlaylist *mainMediaPl;
@@ -51,9 +57,12 @@
 - (id)initWithURL:(NSString *)URL error:(NSError **)error;
 - (id)initWithString:(NSString *)string baseURL:(NSString *)URL error:(NSError **)error;
 
-// 改变 mainMediaPl
-// 这个url必须是master playlist 中多码率url(绝对地址)中的一个
-// 这个方法先会去获取url中的内容，生成一个mediaPlaylist，如果内容获取失败，mainMediaPl改变失败
+/**
+ *  Using to change mainMediaPl. This method generate a mediaPlaylist with the containt of the `url`. If containts downloading failed, the change fail.
+ *
+ *  @param url        The url referrence of an alternative stream url contained in masterPlaylist.allStreamURLs.
+ *  @param completion The block to be excute after operation complete, it should have following signatures (BOOL success).
+ */
 - (void)specifyVideoURL:(NSString *)url completion:(void (^)(BOOL success))completion;
 
 - (NSString *)indexPlaylistName;
