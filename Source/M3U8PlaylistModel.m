@@ -45,6 +45,31 @@
     return [self initWithString:str baseURL:URL.realBaseURL error:error];
 }
 
++ (void)loadAsynchronouslyWithURL:(NSURL *)URL
+                       completion:(void (^)(M3U8PlaylistModel *model, NSError *error))completion {
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0), ^{
+        NSError *err = nil;
+        NSString *str = [[NSString alloc] initWithContentsOfURL:URL
+                                                       encoding:NSUTF8StringEncoding error:&err];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (err) {
+                completion(nil, err);
+                return;
+            }
+            NSError *err2 = nil;
+            M3U8PlaylistModel *listModel = [[M3U8PlaylistModel alloc] initWithString:str
+                                                                         originalURL:URL baseURL:URL.realBaseURL error:&err2];
+            if (err) {
+                completion(nil, err);
+                return;
+            }
+            
+            completion(listModel, nil);
+        });
+    });
+}
+
 - (id)initWithString:(NSString *)string baseURL:(NSURL *)baseURL error:(NSError **)error {
     return [self initWithString:string originalURL:nil baseURL:baseURL error:error];
 }
