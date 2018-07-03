@@ -47,6 +47,17 @@ If you prefer not to use either of the above mentioned dependency managers, you 
 
 ## Usage
 
+- Asynchronous
+
+```objc
+#import "NSURL+m3u8.h"
+
+[<#URL#> loadM3U8AsynchronouslyCompletion:^(M3U8PlaylistModel *model, NSError *error) {
+                                      }];
+```
+
+- Synchronous
+
 ```objective-c
 NSError *error = nil;
 M3U8PlaylistModel *model = [[M3U8PlaylistModel alloc] 
